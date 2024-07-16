@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "331728575499",
+    "project_id": "ivloovpetsapp",
+    "storage_bucket": "ivloovpetsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331728575499:android:8f33cc0826ea16a75c3b0e",
+        "android_client_info": {
+          "package_name": "com.iv.loovpets"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjogDzK93SpRLTNTNvg1TBgMyCpGcS7NM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
