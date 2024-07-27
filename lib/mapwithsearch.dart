@@ -233,10 +233,8 @@ class _MapwithsearchState extends State<Mapwithsearch> {
             child: Container(
               width: MediaQuery.of(context).size.width - 1,
               height: MediaQuery.of(context).size.height - 100,
-              
               child: Column(
                 children: [
-                  
                   Expanded(
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -252,7 +250,6 @@ class _MapwithsearchState extends State<Mapwithsearch> {
                             });
                           },
                           child: ListTile(
-                            
                             title: Text(_placeList[index]["description"]),
                           ),
                         );
