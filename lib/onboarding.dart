@@ -12,6 +12,7 @@ import 'package:status_alert/status_alert.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'mapdemo.dart';
 import 'regtest.dart';
+import 'locationtest.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -23,7 +24,7 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   Map<String, dynamic>? _userData;
   final microsoftProvider = MicrosoftAuthProvider();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +116,14 @@ class _OnboardingState extends State<Onboarding> {
                           builder: (BuildContext context) => Regtest()));
                 },
                 child: Text("Register")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => Locationtest()));
+                },
+                child: Text("Location"))
           ],
         ),
       ),

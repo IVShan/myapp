@@ -3,6 +3,12 @@
 <!-- Suggested code may be subject to a license. Learn more: ~LicenseLog:3440690962. -->
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<!-- Suggested code may be subject to a license. Learn more: ~LicenseLog:3735447326. -->
+<!-- Suggested code may be subject to a license. Learn more: ~LicenseLog:2397080356. -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <application
         android:label="myapp"
         android:name="${applicationName}"

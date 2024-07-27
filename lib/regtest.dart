@@ -153,11 +153,11 @@ class _RegtestState extends State<Regtest> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      } else if (value.length < 8) {
-                        return 'Minimum 8 character';
+                        return 'User name is required';
+                      } else if (value.length < 3) {
+                        return 'User name must be at least 3 characters long';
                       } else if (!isNameValid(value)) {
-                        return 'Enter valid name';
+                        return 'Only letters are allowed';
                       }
                       return null;
                     },
