@@ -197,6 +197,12 @@ class _MapwithsearchState extends State<Mapwithsearch> {
                         onPressed: () {},
                         icon: Icon(Icons.search),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          _controllert.clear();
+                        },
+                        icon: Icon(Icons.close),
+                      ),
                     ],
                   ),
                   Expanded(
@@ -205,17 +211,8 @@ class _MapwithsearchState extends State<Mapwithsearch> {
                       shrinkWrap: true,
                       itemCount: _placeList.length,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () async {
-                            _controllert.text =
-                                _placeList[index]["description"];
-                            setState(() {
-                              _placeList = [];
-                            });
-                          },
-                          child: ListTile(
-                            title: Text(_placeList[index]["description"]),
-                          ),
+                        return ListTile(
+                          title: Text(_placeList[index]["description"]),
                         );
                       },
                     ),
@@ -248,6 +245,7 @@ class _MapwithsearchState extends State<Mapwithsearch> {
                             setState(() {
                               _placeList = [];
                             });
+                            FocusManager.instance.primaryFocus?.unfocus();
                           },
                           child: ListTile(
                             title: Text(_placeList[index]["description"]),
