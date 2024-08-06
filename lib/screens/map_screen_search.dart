@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'adoption_list.dart';
 import 'details_screen.dart';
 import 'result_grid.dart';
@@ -28,6 +29,7 @@ class _mapscreenState extends State<mapscreen> {
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Completer<GoogleMapController> _controller = Completer();
+
 //static const LatLng _kGooglePlex=LatLng(33.6910, 72.98072);
   TextEditingController searchController = TextEditingController();
   int _selectedIndex = 0;
@@ -60,17 +62,23 @@ class _mapscreenState extends State<mapscreen> {
       if (_selectedIndex == 3) {
         Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) => resultgrid()));
-      }else if(_selectedIndex == 4){
-Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => adoptionlist()));
-      }else if(_selectedIndex == 2){
-Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => commentsscreen()));
-      }else if(_selectedIndex == 1){
-Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => adoptiondescription()));
-      }else if(_selectedIndex == 0){
-Navigator.push(context,
+      } else if (_selectedIndex == 4) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => adoptionlist()));
+      } else if (_selectedIndex == 2) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => commentsscreen()));
+      } else if (_selectedIndex == 1) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => adoptiondescription()));
+      } else if (_selectedIndex == 0) {
+        Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) => vetlist()));
       }
     });
@@ -619,6 +627,7 @@ Navigator.push(context,
                 _customInfoWindowController.onCameraMove!();
               },
               onMapCreated: (GoogleMapController controller) async {
+                _controller.complete(controller);
                 _customInfoWindowController.googleMapController = controller;
               },
               initialCameraPosition: _kGooglePlex,
@@ -653,19 +662,36 @@ Navigator.push(context,
                                 horizontal: 20.0, vertical: 11.0),
                             border: InputBorder.none,
                             hintText: 'Search by location...',
-                            hintStyle: TextStyle(fontSize: 15.0, color: Color(0xffB5B5B5),),
+                            hintStyle: TextStyle(
+                              fontSize: 15.0,
+                              color: Color(0xffB5B5B5),
+                            ),
                             suffixIcon: Row(
                               mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween, // added line
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 IconButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     setState(() {
                                       searchController.text = '';
                                     });
+                                    Position position =
+                                        await _determinePosition();
+                                    final GoogleMapController controller =
+                                        await _controller.future;
+                                    controller.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                            CameraPosition(
+                                                target: LatLng(
+                                                    position.latitude,
+                                                    position.longitude),
+                                                zoom: 14)));
                                   },
-                                  icon: Icon(Icons.gps_fixed,color: Color(0xffB5B5B5),),
+                                  icon: Icon(
+                                    Icons.gps_fixed,
+                                    color: Color(0xffB5B5B5),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(3),
@@ -1789,5 +1815,34 @@ Navigator.push(context,
             unselectedLabelStyle: TextStyle(fontSize: 0)),
       ),
     );
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        return Future.error("Location permission denied");
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied');
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+
+    return position;
   }
 }

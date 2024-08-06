@@ -18,6 +18,7 @@ class Mapwithsearch extends StatefulWidget {
 class _MapwithsearchState extends State<Mapwithsearch> {
   final _controllert = TextEditingController();
   var uuid = const Uuid();
+  String selplace = '';
   String _sessionToken = '1234567890';
   List<dynamic> _placeList = [];
   Completer<GoogleMapController> _controller = Completer();
@@ -221,42 +222,53 @@ class _MapwithsearchState extends State<Mapwithsearch> {
               ),
             ),
           ),
+
           Positioned(
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:3518602291.
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:830919615.
             top: 50,
             right: 0,
             left: 1,
-            child: Container(
-              width: MediaQuery.of(context).size.width - 1,
-              height: MediaQuery.of(context).size.height - 100,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _placeList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () async {
-                            _controllert.text =
-                                _placeList[index]["description"];
-                            setState(() {
-                              _placeList = [];
-                            });
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          child: ListTile(
-                            title: Text(_placeList[index]["description"]),
+            child: _placeList.length > 0 &&
+                    _controllert.text.toLowerCase() != selplace.toLowerCase()
+                ? Container(
+                    width: MediaQuery.of(context).size.width - 1,
+                    height: MediaQuery.of(context).size.height - 100,
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(.6),
+                        backgroundBlendMode: BlendMode.darken),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _placeList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  _controllert.text =
+                                      _placeList[index]["description"];
+                                  setState(() {
+                                    selplace = _placeList[index]["description"];
+                                    _placeList = [];
+                                  });
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                },
+                                child: ListTile(
+                                  title: Text(
+                                    _placeList[index]["description"],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        )
+                      ],
                     ),
                   )
-                ],
-              ),
-            ),
+                : Container(),
           ),
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:4154829368.
         ],

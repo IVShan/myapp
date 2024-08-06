@@ -60,10 +60,53 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
         strictbounds: false,
         types: [],
         decoration: InputDecoration(
-            hintText: 'Search',
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(color: Colors.white))),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.0, vertical: 11.0),
+            border: InputBorder.none,
+            hintText: 'Search by location...',
+            hintStyle: TextStyle(
+              fontSize: 15.0,
+              color: Color(0xffB5B5B5),
+            ),
+            suffixIcon: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                  onPressed: () async {},
+                  icon: Icon(
+                    Icons.gps_fixed,
+                    color: Color(0xffB5B5B5),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: SizedBox(
+                    height: 30,
+                    child: TextButton(
+                      onPressed: () {
+//Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>resultgrid()));
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color(0xff019b9e),
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Center(
+                          child: const Text(
+                        'Search',
+                        style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                            fontFamily: 'Proximasoft'),
+                      )),
+                    ),
+                  ),
+                ),
+              ],
+            )),
         components: [
           Component(Component.country, "in"),
           Component(Component.country, "usa")
